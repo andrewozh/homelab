@@ -1,5 +1,5 @@
-.PHONY: kctx homelab start stop
-all: kctx homelab start stop
+.PHONY: kctx homelab create delete start stop
+all: kctx homelab create delete start stop
 
 help: ## Show this message
 	@echo "Suggested commands:"
@@ -11,6 +11,9 @@ kctx: ## Activate homelab kubecontext
 
 create: kctx ## Create homelab cluster
 	kind get clusters | grep homelab || kind create cluster --config kind-homelab.yaml
+
+delete: ## Delete existing cluster
+	kind delete cluster
 
 start stop: create ## Start/Stop homelab kind cluster
 	podman ps -aq --filter "name=homelab" | xargs podman "$@"
