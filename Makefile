@@ -9,11 +9,11 @@ help: ## Show this message
 kctx: ## Activate homelab kubecontext
 	kubectl config use-context kind-homelab
 
-create: kctx ## Create homelab cluster
+create: ## Create homelab cluster
 	kind get clusters | grep homelab || kind create cluster --config kind-homelab.yaml
 
 delete: ## Delete existing cluster
-	kind delete cluster
+	kind delete cluster -n homelab
 
 start stop: create ## Start/Stop homelab kind cluster
 	podman ps -aq --filter "name=homelab" | xargs podman "$@"
